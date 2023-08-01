@@ -1,0 +1,60 @@
+package com.mypack.departmentmicroservice.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mypack.departmentmicroservice.entity.Department;
+import com.mypack.departmentmicroservice.service.DepartmentService;
+
+@RestController
+@RequestMapping("/departments")
+public class DepartmentController {
+	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	
+	@PostMapping
+	public Department add(Department department)
+	{
+		return departmentService.addDepartment(department);
+	}
+	
+	@GetMapping
+	public List<Department> getAllDepartment()
+	{
+		return departmentService.findAllDepartment();
+	}
+	
+	@GetMapping("/{id}")
+	public Optional<Department> getDepartmentById(@PathVariable  long id)
+	{
+		return departmentService.findByDepartmentId(id);
+	}
+	
+	@DeleteMapping("/{id}")
+	public String deleteDepartment(@PathVariable  long id)
+	{
+		return departmentService.deleteDepartment(id);
+	}
+	
+	
+	
+	
+	
+	
+
+}

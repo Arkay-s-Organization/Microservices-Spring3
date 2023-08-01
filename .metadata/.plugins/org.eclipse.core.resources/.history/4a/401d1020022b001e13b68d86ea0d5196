@@ -1,0 +1,42 @@
+package com.example.mypack.repo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.example.mypack.entity.Employee;
+
+
+@Repository
+public class EmployeeRepository 
+{
+private List<Employee> Employees = new ArrayList<>();
+	
+	public Employee addEmployee(Employee Employee)
+	{
+		Employees.add(Employee);
+		return Employee;
+	}
+	
+    public Employee findByEmployeeId(Long id)
+    {
+    	return Employees.stream()
+    			.filter(depId -> depId.equals(id))
+    			.findFirst().orElseThrow();
+    }
+	
+	public List<Employee> findAllEmployee()
+	{
+		return Employees;
+	}
+	
+	public String deleteEmployee(Long id)
+	{
+		Employees.remove(id);
+		return "Employee with id:"+ id +"deleted Successfully";
+	}
+
+
+
+}

@@ -1,0 +1,40 @@
+package com.mypack.departmentmicroservice.repo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+
+import com.mypack.departmentmicroservice.entity.Department;
+
+
+@Repository
+public class DepartmentRepository {
+	
+	private List<Department> departments = new ArrayList<>();
+	
+	public Department addDepartment(Department department)
+	{
+		departments.add(department);
+		return department;
+	}
+	
+    public Optional<Department> findByDepartmentId(Long id)
+    {
+    	return departmentRepository.findById(id);
+    }
+	
+	public List<Department> findAllDepartment()
+	{
+		return departmentRepository.findAll();
+	}
+	
+	public String deleteDepartment(Long id)
+	{
+		departmentRepository.deleteById(id);
+		return "Department with id:"+ id +"deleted Successfully";
+	}
+
+
+}

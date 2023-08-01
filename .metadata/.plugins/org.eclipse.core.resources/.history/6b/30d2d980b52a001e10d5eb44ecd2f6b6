@@ -1,0 +1,9 @@
+server:
+  port: 8031
+      
+      
+spring:
+  application:
+    name: Department-microservice
+  config:
+    import: "optional:configserver:http://localhost:8082"

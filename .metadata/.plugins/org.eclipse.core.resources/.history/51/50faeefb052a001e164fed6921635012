@@ -1,0 +1,76 @@
+package com.example.demo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.dao.TraineeDao;
+import com.example.demo.entities.Trainee;
+import com.example.demo.exception.IdNotMatchedException;
+import com.example.demo.exception.NoTraineeFoundException;
+import com.example.demo.exception.TraineeIdNotFoundException;
+import com.example.demo.exception.TraineeNameNotFoundException;
+
+import java.util.Optional;
+
+@Service("traineeservice")
+public class TraineeService {
+	@Autowired
+	TraineeDao traineeDao;
+
+	public String insertTrainee(Trainee tin) {
+		Trainee dbTin = traineeDao.save(tin);
+		return "Added Successfully with Id:" + dbTin.getTraineeId();
+	}
+
+	public List<Trainee> findAll() throws NoTraineeFoundException {
+		List<Trainee> list = traineeDao.findAll();
+		if(list.isEmpty())
+		{
+			throw new NoTraineeFoundException("No Trainee Found");
+		}
+		return list;
+	}
+
+	public Trainee findByTraineeId(int id) throws TraineeIdNotFoundException {
+		Optional<Trainee> op = traineeDao.findById(id);
+		if (op.isPresent()){
+			return op.get();
+		} else {
+			throw new TraineeIdNotFoundException("Id not Found   " + id);
+		}
+	}
+
+	public Trainee findByTraineeName(String tname) throws TraineeNameNotFoundException {
+		Optional<Trainee> op = traineeDao.findByTraineeName(tname);
+		if(op.isPresent())
+		{
+			return op.get();
+		}else
+		{
+			throw new TraineeNameNotFoundException("Name not Found  "+ tname);
+		}
+	}
+
+	public String updateTrainee(int id, Trainee tid) throws TraineeIdNotFoundException, IdNotMatchedException {
+		if (id == tid.getTraineeId()) {
+			if(traineeDao.existsById(id)) {
+			Trainee upTin = traineeDao.save(tid);
+			return "Updated Successfully for id:" + upTin.getTraineeId();
+		}else
+		
+			throw new TraineeIdNotFoundException("Trainee Not Found"+id);	
+		}
+		throw new IdNotMatchedException("Id is not matched");
+	}
+	
+
+	public String deleteById(int id) {
+		if (traineeDao.existsById(id)) {
+			traineeDao.deleteById(id);
+			return "Deleted Successfully for id:" + id;
+		}
+		return "Record Not Found For Id:" + id;
+	}
+}

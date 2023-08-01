@@ -1,0 +1,38 @@
+
+
+
+
+  
+spring:
+  application:
+    name: api-gateway
+  config:
+   import: "optional:configserver:http://localhost:8082"
+  cloud:
+    gateway:
+      routes:
+        - id: employee-microservice
+          uri:
+            lb://employee-microservice
+          predicates:
+          - Path=/employees/**
+        - id: department-microservice
+          uri:
+            lb://department-microservice
+          predicates:
+          - Path=/departments/**
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+      

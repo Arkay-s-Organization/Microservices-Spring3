@@ -1,0 +1,8 @@
+package com.mypack.departmentmicroservice.client;
+
+import org.springframework.web.service.annotation.HttpExchange;
+
+@HttpExchange
+public interface EmployeeClient {
+
+}

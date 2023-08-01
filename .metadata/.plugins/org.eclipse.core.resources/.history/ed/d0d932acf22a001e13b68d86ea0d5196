@@ -1,0 +1,5 @@
+package com.mypack.departmentmicroservice.emtity;
+
+public class Department {
+
+}

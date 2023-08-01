@@ -1,0 +1,5 @@
+package com.mypack.departmentmicroservice.service;
+
+public class DepartmentService {
+
+}

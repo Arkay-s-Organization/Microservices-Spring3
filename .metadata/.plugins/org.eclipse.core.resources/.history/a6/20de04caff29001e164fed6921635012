@@ -1,0 +1,72 @@
+package com.example.demo.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entities.Trainee;
+import com.example.demo.exception.IdNotMatchedException;
+import com.example.demo.exception.NoTraineeFoundException;
+import com.example.demo.exception.TraineeIdNotFoundException;
+import com.example.demo.exception.TraineeNameNotFoundException;
+import com.example.demo.service.TraineeService;
+
+
+@RestController
+public class TraineeController {
+	@Autowired
+	TraineeService ts;
+	@PostMapping("/trainees")
+	public ResponseEntity<String> addTrainee(@Valid @RequestBody Trainee tra)
+	{
+		String msg=ts.insertTrainee(tra);
+		ResponseEntity<String> rEntity = new ResponseEntity<String>(msg , HttpStatus.CREATED);
+		return rEntity;
+	}
+	@GetMapping("/trainees")
+	public List<Trainee> fetchAllTrainee() throws NoTraineeFoundException 
+	{
+		return ts.findAll();
+	}
+	@GetMapping("/trainees/{traineeId}")
+	public ResponseEntity<Trainee> findTraineeById(@PathVariable ("traineeId") int traineeId) throws TraineeIdNotFoundException 
+	{
+		Trainee tra = ts.findByTraineeId(traineeId);
+		ResponseEntity<Trainee> rEntity = new ResponseEntity<Trainee>( tra , HttpStatus.FOUND);
+		return rEntity;
+	}
+//	@GetMapping("/trainees/byName/{traineeName}")
+//	public ResponseEntity<Trainee> findTraineeByName(@PathVariable ("traineeName") String traineeName) throws TraineeNameNotFoundException 
+//	{
+//		Trainee tra = ts.findByTraineeName(traineeName);
+//		ResponseEntity<Trainee> rEntity = new ResponseEntity<Trainee>( tra , HttpStatus.FOUND);
+//		return rEntity;
+//	}
+	@PutMapping("/trainees/{traineeId}")
+	public ResponseEntity<String> modifyTrainee(@PathVariable ("traineeId") int traineeId, @Valid @RequestBody Trainee tra) throws TraineeIdNotFoundException, IdNotMatchedException 
+	{
+		String msg = ts.updateTrainee(traineeId ,tra);
+		ResponseEntity<String> rEntity = new ResponseEntity<String>( msg , HttpStatus.ACCEPTED);
+		return rEntity;
+	}
+	
+	@DeleteMapping("/trainees/{traineeId}")
+	public ResponseEntity<String> deleteTraineeById(@PathVariable ("traineeId") int traineeId)
+	{
+		String msg = ts.deleteById(traineeId);
+		ResponseEntity<String> rEntity = new ResponseEntity<String>( msg , HttpStatus.OK);
+		return rEntity;
+	}
+
+}

@@ -1,0 +1,34 @@
+
+
+  
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: employee-microservice
+          uri:
+            lb://employee-microservice
+          predicates:
+          - Path=/employee/**
+        - id: department-microservice
+          uri:
+            lb://department-microservice
+          predicates:
+          - Path=/department/**
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+      

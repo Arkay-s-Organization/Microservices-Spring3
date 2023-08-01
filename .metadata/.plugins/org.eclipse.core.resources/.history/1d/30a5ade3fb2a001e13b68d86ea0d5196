@@ -1,0 +1,9 @@
+package com.mypack.departmentmicroservice.entity;
+
+import jakarta.persistence.Entity;
+
+public record Employee(Long id , Long depId, String name ,int age ,String position ) 
+{
+	
+
+}
